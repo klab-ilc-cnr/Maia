@@ -4,5 +4,5 @@ Maia is an open and collaborative web tool based on semantic web and linked open
 Maia is composed by four diffent parts:
 * [Maia Frontend](https://github.com/klab-ilc-cnr/maia-fe)
 * [Maia Backend](https://github.com/klab-ilc-cnr/maia-be)
-* [TextO](https://github.com/klab-ilc-cnr/Maia)
+* [TextO](https://github.com/davide-albanesi-ilc/TextO)
 * [LexO](https://github.com/andreabellandi/LexO-backend)
