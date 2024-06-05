@@ -6,3 +6,7 @@ Maia is composed by four diffent parts:
 * [Maia Backend](https://github.com/klab-ilc-cnr/maia-be)
 * [TextO](https://github.com/davide-albanesi-ilc/TextO)
 * [LexO](https://github.com/andreabellandi/LexO-backend)
+## Installation instructions
+Under construction 
+## Contact
+klab@ilc.cnr.it
