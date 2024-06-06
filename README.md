@@ -8,5 +8,6 @@ Maia is composed by four diffent parts:
 * [LexO](https://github.com/andreabellandi/LexO-backend)
 ## Installation instructions
 Under construction 
+## Demo version
 ## Contact
 klab@ilc.cnr.it
