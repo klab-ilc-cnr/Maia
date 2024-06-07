@@ -9,5 +9,7 @@ Maia is composed by four diffent parts:
 ## Installation instructions
 Under construction 
 ## Demo version
+https://klab.ilc.cnr.it/maia-demo
+(user: demo, password: demoversion2024)
 ## Contact
 klab@ilc.cnr.it
