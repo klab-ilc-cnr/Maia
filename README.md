@@ -10,6 +10,5 @@ Maia is composed by four diffent parts:
 Under construction 
 ## Demo version
 https://klab.ilc.cnr.it/maia-demo
-(user: demo, password: demoversion2024)
 ## Contact
 klab@ilc.cnr.it
