@@ -2,14 +2,16 @@ package it.cnr.ilc.maia.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.io.ByteStreams;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import it.cnr.ilc.maia.dto.UserDto;
 import it.cnr.ilc.maia.model.Role;
+import jakarta.annotation.PostConstruct;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -37,8 +39,8 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     @Getter
-    private final String publicKey;
-    private final String privateKey;
+    private String publicKey;
+    private String privateKey;
 
     @Autowired
     private UserService userService;
@@ -46,12 +48,12 @@ public class AuthenticationService {
     @Autowired
     private Environment environment;
 
-    public AuthenticationService() throws IOException {
-        System.out.println("LOAD KEYS");
-        privateKey = new String(ByteStreams.toByteArray(AuthenticationService.class.getResourceAsStream("/private8.pem")))
+    @PostConstruct
+    public void init() throws IOException {
+        publicKey = new String(Files.readAllBytes(Paths.get(environment.getProperty("jwt.public-key", "public.pem"))))
                 .replaceAll("-----.*-----", "")
                 .replaceAll("\n", "");
-        publicKey = new String(ByteStreams.toByteArray(AuthenticationService.class.getResourceAsStream("/public.pem")))
+        privateKey = new String(Files.readAllBytes(Paths.get(environment.getProperty("jwt.private-key", "private8.pem"))))
                 .replaceAll("-----.*-----", "")
                 .replaceAll("\n", "");
     }

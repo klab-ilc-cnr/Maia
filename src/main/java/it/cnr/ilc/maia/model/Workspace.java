@@ -28,7 +28,7 @@ public class Workspace extends TracedEntity {
 
     private String note;
 
-    @Column(length = 2000)
+    @Column(columnDefinition = "TEXT")
     private String layout;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "workspace")

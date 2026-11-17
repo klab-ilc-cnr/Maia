@@ -20,7 +20,7 @@ public class Tile extends TracedEntity {
     @SequenceGenerator(name = GENERATOR_NAME, sequenceName = SEQUENCE_NAME, allocationSize = 1)
     private Long id;
 
-    @Column(length = 2000)
+    @Column(columnDefinition = "TEXT")
     String tileConfig;
 
     String contentId;

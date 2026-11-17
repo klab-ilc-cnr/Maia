@@ -112,9 +112,7 @@ public class LexoController extends ExternController {
         return new ObjectMapper().readValue(response.getBody(), DictionaryEntryCore.class);
     }
 
-    public static record UpdateEntry(String relation, Object value) {
-
-    }
+    public static record UpdateEntry(String relation, Object value) {}
 
     private void lexoUpdateDictionaryEntry(String author, String id, String relation, String value) throws Exception {
         HttpHeaders headers = new HttpHeaders();
@@ -168,9 +166,7 @@ public class LexoController extends ExternController {
         restTemplate().exchange(url, HttpMethod.POST, entity, String.class, params);
     }
 
-    public static record UpdateRelation(String type, String relation, Object value) {
-
-    }
+    public static record UpdateRelation(String type, String relation, Object value) {}
 
     private void lexoUpdateLinguisticRelation(String id, String type, String relation, Object value) throws Exception {
         HttpHeaders headers = new HttpHeaders();
@@ -213,9 +209,7 @@ public class LexoController extends ExternController {
         return new ObjectMapper().readValue(response.getBody(), LexicographicComponent.class);
     }
 
-    public static record UpdateLexicographicComponent(String type, String relation, String component, Integer position) {
-
-    }
+    public static record UpdateLexicographicComponent(String type, String relation, String component, Integer position) {}
 
     private void lexoUpdateLexicographicComponentPosition(String id, String type, String relation, String component, Integer position) throws Exception {
         HttpHeaders headers = new HttpHeaders();
@@ -349,9 +343,7 @@ public class LexoController extends ExternController {
         return new Date();
     }
 
-    public static record AssociateLexicalConceptRequest(String senseId, String conceptId) {
-
-    }
+    public static record AssociateLexicalConceptRequest(String senseId, String conceptId) {}
 
     @PostMapping("dissociate/lexicalConcept")
     public Date dissociateLexicalConcept(@RequestBody AssociateLexicalConceptRequest request) throws Exception {
@@ -369,9 +361,7 @@ public class LexoController extends ExternController {
         restTemplate().exchange(url, HttpMethod.POST, entity, String.class, params);
     }
 
-    public static record DeleteRelation(String relation, Object value) {
-
-    }
+    public static record DeleteRelation(String relation, Object value) {}
 
     @GetMapping("data/sense/lexicalConcepts")
     public List<GenericEntity> dataSenseLexicalConcepts(@RequestParam(required = true) String id) throws Exception {
@@ -449,23 +439,19 @@ public class LexoController extends ExternController {
         return entityManager.createNativeQuery(sql, Etymology.class).getResultList();
     }
 
-    public static record Etymology(String code, String name) {
-
-    }
+    public static record Etymology(String code, String name) {}
 
     @GetMapping("dictionary/otherDocuments")
     public List<OtherDocument> dictionaryOtherDocuments() throws Exception {
-        String sql = "select * from _other_document";
+        String sql = "select code, title, `order` from _other_document order by `order`, code";
         return entityManager.createNativeQuery(sql, OtherDocument.class).getResultList();
     }
 
-    public static record OtherDocument(String code, String title) {
-
-    }
+    public static record OtherDocument(String code, String title, Integer order) {}
 
     @GetMapping("dictionary/authorDocuments")
     public List<OtherDocument> dictionaryAuthorDocuments() throws Exception {
-        String sql = "select * from _author_document";
+        String sql = "select code, title, `order` from _author_document order by `order`, code";
         return entityManager.createNativeQuery(sql, OtherDocument.class).getResultList();
     }
 
@@ -475,9 +461,7 @@ public class LexoController extends ExternController {
         return new Date();
     }
 
-    public static record AssociateSeeAlsoRequest(String dictionaryId, String seeAlsoDictionaryId) {
-
-    }
+    public static record AssociateSeeAlsoRequest(String dictionaryId, String seeAlsoDictionaryId) {}
 
     @PostMapping("delete/dictionaryEntry/seeAlso")
     public Date deleteDictionaryEntrySeeAlso(@RequestBody AssociateSeeAlsoRequest request) throws Exception {
@@ -500,7 +484,7 @@ public class LexoController extends ExternController {
     @GetMapping("dictionary/sortingTree")
     public List<LexicographicTree> dataLemmaSensesTree(@RequestParam(required = true) String id) throws Exception {
         List<LexicographicComponent> components = lexoLexicographicComponents(id);
-        List<LexicographicTree> trees = new ArrayList<>();
+        List<LexicographicTree> trees = new ArrayList<>(components.size());
         LexicographicTree tree;
         for (LexicographicComponent component : components) {
             tree = new LexicographicTree(component);
@@ -543,9 +527,7 @@ public class LexoController extends ExternController {
         }
     }
 
-    public static record UpdateRelationSensesTree(String type, String relation, Object value, Boolean sensesCustomOrder) {
-
-    }
+    public static record UpdateRelationSensesTree(String type, String relation, Object value, Boolean sensesCustomOrder) {}
 
     private void lexoUpdateLinguisticRelationSensesTree(String id, String type, String relation, Object value) throws Exception {
         HttpHeaders headers = new HttpHeaders();

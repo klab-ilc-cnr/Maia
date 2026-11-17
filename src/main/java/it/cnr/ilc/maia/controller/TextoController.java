@@ -308,52 +308,6 @@ public class TextoController extends ExternController {
         return Map.of("success", updateds, "errors", errors);
     }
 
-    @PostMapping("annotation/multiple-update2")
-    public AsyncInfo annotationMultipleUpdate2(@RequestBody AnnotationMultipleRequest maiaRequest) throws Exception {
-        AsyncInfo info = AsyncService.createAsync();
-        new Thread() {
-            @Override
-            public void run() {
-                annotationMultipleUpdate(info.getUuid(), maiaRequest);
-            }
-        }.start();
-        return info;
-    }
-
-    private void annotationMultipleUpdate(String uuid, AnnotationMultipleRequest maiaRequest) {
-        try {
-            Set<Integer> errors = new HashSet<>();
-            int updateds = 0;
-            List<Map<String, Object>> textoResult;
-            Map<String, Object> textoFeature;
-            for (AnnotationOffset offset : maiaRequest.getOffsets()) {
-                try {
-                    textoResult = textoWordAnnotations(maiaRequest, offset);
-                    for (Map<String, Object> textoAnnotation : textoResult) {
-                        for (AnnotationFeatureUpdate feature : maiaRequest.getFeatures()) {
-                            textoFeature = getFeature(textoAnnotation, feature.getFeatureId());
-                            if (textoFeature != null
-                                    && (feature.getOldValue() == null || feature.getOldValue().equals(textoFeature.get("value")))
-                                    && !feature.getValue().equals(textoFeature.get("value"))) {
-                                textoAnnotationFeatureUpdate(Long.valueOf(textoFeature.get("annotation_feature_id").toString()), feature.getValue());
-                                updateds++;
-                            } else if (textoFeature == null && feature.getOldValue() == null) {
-                                textoAnnotationFeatureCreate(Long.valueOf(textoAnnotation.get("annotation_id").toString()), feature.getFeatureId(), feature.getValue());
-                                updateds++;
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    errors.add(offset.getIndex());
-                }
-                AsyncService.setPercentage(uuid, (double) (updateds + errors.size()) / maiaRequest.getOffsets().size());
-            }
-            AsyncService.setDone(uuid, Map.of("success", updateds, "errors", errors));
-        } catch (Exception er) {
-            AsyncService.setError(uuid, er);
-        }
-    }
-
     public Map<String, Object> getFeature(Map<String, Object> textoAnnotation, Long featureId) {
         for (Map<String, Object> textoFeature : (List<Map<String, Object>>) textoAnnotation.get("features")) {
             if (((Number) textoFeature.get("feature_id")).longValue() == featureId) {
@@ -363,9 +317,7 @@ public class TextoController extends ExternController {
         return null;
     }
 
-    public static record SimpleValue(String value) {
-
-    }
+    public static record SimpleValue(String value) {}
 
     private void textoAnnotationFeatureUpdate(Long id, String value) throws Exception {
         HttpHeaders headers = new HttpHeaders();
@@ -488,17 +440,11 @@ public class TextoController extends ExternController {
         return maiaResponse;
     }
 
-    public static record SearchFilterValuesResponse(List<Semantics> semantics, List<Pos> poss) {
+    public static record SearchFilterValuesResponse(List<Semantics> semantics, List<Pos> poss) {}
 
-    }
+    public static record Semantics(String uri, String label) {}
 
-    public static record Semantics(String uri, String label) {
-
-    }
-
-    public static record Pos(String upos, String label) {
-
-    }
+    public static record Pos(String upos, String label) {}
 
     @PostMapping("util/search-filter-values")
     public SearchFilterValuesResponse searchFilterValues(@RequestBody SearchFilterValuesRequest maiaRequest) throws Exception {
@@ -508,12 +454,12 @@ public class TextoController extends ExternController {
                 environment.getProperty("texto.named-entity-feature-id", Long.class)
         );
         List<String> list = textoFeatureValues(maiaRequest, featureIds.semanticsFeatureId());
-        List<Semantics> semantics = new ArrayList<>();
+        List<Semantics> semantics = new ArrayList<>(list.size());
         for (String string : list) {
             semantics.add(new Semantics(string, lexoGetLexicaSenseDescription(string)));
         }
         list = textoFeatureValues(maiaRequest, featureIds.posFeatureId());
-        List<Pos> poss = new ArrayList<>();
+        List<Pos> poss = new ArrayList<>(list.size());
         for (String string : list) {
             poss.add(new Pos(string, PosTraitUtil.getUPos(string)));
         }

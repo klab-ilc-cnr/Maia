@@ -33,7 +33,8 @@ public class ApplicationConfig {
             public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new SecurityInterceptor(authenticationService))
                         .addPathPatterns("/api/**")
-                        .excludePathPatterns("/api/authentication/**");
+                        .excludePathPatterns("/api/authentication/**")
+                        .addPathPatterns("/texto/**");
 //                .excludePathPatterns("/", "/error/**", "/api/authentication/**", "/swagger-ui/**");
             }
         };

@@ -21,13 +21,9 @@ public class TextoKwicRequest {
     private final String query2;
     private final List<KwicFeatureFilter> features2;
 
-    public static record KwicFeatureFilter(Long feature, String[] values) {
+    public static record KwicFeatureFilter(Long feature, String[] values) {}
 
-    }
-
-    public static record FeatureIds(Long semanticsFeatureId, Long posFeatureId, Long namedEntityFeatureId) {
-
-    }
+    public static record FeatureIds(Long semanticsFeatureId, Long posFeatureId, Long namedEntityFeatureId) {}
 
     public TextoKwicRequest(KwicRequest maiaRequest) {
         resources = maiaRequest.getResources();

@@ -33,11 +33,11 @@ public class AisResponse {
                 astart = ((Number) texto.get("start")).intValue() - ((Number) texto.get("left_start")).intValue();
                 aend = ((Number) texto.get("end")).intValue() - ((Number) texto.get("left_start")).intValue();
                 string = (String) texto.get("extra_value");
-                if (string == null) {
+                if (string == null || string.isBlank()) {
                     maia.getOffsets().add(new Offset(astart, aend));
                 } else {
                     String section = maia.getSection().substring(astart, aend);
-                    section = section.replaceAll("[^a-zA-Z0-9'àèéìòù]", " ");
+                    section = section.replaceAll("[^a-zA-Z0-9'‘’àèéìòù]", " ");
                     tend = 0;
                     for (String token : string.split("\\s+")) {
                         tstart = section.indexOf(token, tend);
