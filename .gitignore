@@ -35,3 +35,7 @@ replay_pid*
 /nbproject/private/
 # VS Code
 .vscode/
+### Keys ###
+private.pem
+private8.pem
+public.pem
